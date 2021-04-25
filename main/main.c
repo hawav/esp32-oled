@@ -37,5 +37,5 @@ void app_main(void)
     u8g2_DrawStr(u8g2, 0, 20, "Hello World!");
     u8g2_SendBuffer(u8g2);
 
-    printf("All done!");
+    printf("All done!\n");
 }
