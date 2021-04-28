@@ -85,12 +85,6 @@ static uint8_t u8g2_i2c_byte_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
   return 0;
 }
 
-// 软件操纵 gpio 模拟通信协议。我们用硬件的，这个函数用不到
-uint8_t u8g2_gpio_and_delay_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
-{
-  return 0;
-}
-
 u8g2_t *u8g2_hal_i2c_init(u8g2_hal_i2c_cfg_t cfg)
 {
   i2c_cfg = cfg;
@@ -98,7 +92,8 @@ u8g2_t *u8g2_hal_i2c_init(u8g2_hal_i2c_cfg_t cfg)
   u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2,
                                          U8G2_R0,
                                          u8g2_i2c_byte_cb,
-                                         u8g2_gpio_and_delay_cb);
+                                         u8x8_dummy_cb // 需要软件操纵 gpio 模拟通信协议才需要实现这个函数，而我这里用硬件的
+  );
 
   u8g2_SetI2CAddress(&u8g2, 0x78); // 设置屏幕 I2C 地址
   u8g2_InitDisplay(&u8g2);         // 发送初始化命令序列给屏幕，执行完毕后屏幕会进入睡眠模式
